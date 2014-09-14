@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LearnAndroidApp</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="txtTitlePosition">Current Position:</string>
+    <string name="txtCurPosLat">00.00000</string>
+    <string name="txtCurPosLon">000.00000</string>
+
+</resources>
