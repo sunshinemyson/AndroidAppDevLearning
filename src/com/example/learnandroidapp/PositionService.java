@@ -16,7 +16,6 @@ public class PositionService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startid) {
 
-		int rValue = 1;
 		final String msg = intent.getStringExtra("Test");
 		Toast.makeText(this, "Position Service: Show->" + msg,
 				Toast.LENGTH_LONG).show();
@@ -32,9 +31,9 @@ public class PositionService extends Service {
 			}
 		};
 
-		mBkgdThread.run();
+		mBkgdThread.start();
 
-		return rValue;
+		return super.onStartCommand(intent, flags, startid);
 	}
 
 	@Override
