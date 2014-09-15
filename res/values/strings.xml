@@ -6,5 +6,6 @@
     <string name="txtTitlePosition">Current Position:</string>
     <string name="txtCurPosLat">00.00000</string>
     <string name="txtCurPosLon">000.00000</string>
+    <string name="btnTxtGetGpsInfo">GetGpsStatus</string>
 
 </resources>

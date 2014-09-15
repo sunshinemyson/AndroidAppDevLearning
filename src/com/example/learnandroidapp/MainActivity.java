@@ -1,5 +1,8 @@
 package com.example.learnandroidapp;
 
+import java.util.List;
+
+import junit.framework.Assert;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +13,9 @@ import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.location.GpsStatus;
@@ -19,35 +25,97 @@ import android.location.GpsStatus;
  import android.view.MenuItem;
  */
 
-public class MainActivity extends Activity
-	implements GpsStatus.Listener{
+public class MainActivity extends Activity implements GpsStatus.Listener {
 
+	static final String TAG = "MainActiviy";
 	private boolean mBkgdService = false;
-	//private PositionThread<Void,Integer,Boolean> = null;
+	// private PositionThread<Void,Integer,Boolean> = null;
 
 	private TextView mPosLatView = null;
 	private TextView mPosLonView = null;
+	private Button mBtnGetGpsInfo = null;
+	private TextView mGpsInfo = null;
 	private LocationManager mLocationManager = null;
 	private LocationProvider mLocationProvider = null;
+
+	private OnClickListener mBtnHandler = new OnClickListener() {
+		int counter = 0;
+		@Override
+		public void onClick(View v) {
+			if (v == mBtnGetGpsInfo && mGpsInfo != null) {
+				mGpsInfo.setText("");
+				mGpsInfo.append(String.format("The %d times-->\n", ++counter));
+				mLocationManager = (LocationManager) MainActivity.this
+						.getSystemService(LOCATION_SERVICE);
+				if (null != mLocationManager) {
+					List<String> providers = mLocationManager.getAllProviders();
+					Assert.assertEquals(true, 0 != providers.size());
+					for (int i = 0; i < providers.size(); ++i) {
+						Location curLocation = mLocationManager
+								.getLastKnownLocation(providers.get(i));
+
+						String detailString = new String(" --- \n");
+						if (curLocation != null) {
+							detailString = String.format(
+									" Accuracy(%f) speed(%f) pos(%f,%f)\n",
+									curLocation.getAccuracy(),
+									curLocation.getSpeed(),
+									curLocation.getLatitude(),
+									curLocation.getLongitude());
+						}
+						mGpsInfo.append(providers.get(i) + detailString);
+					}
+					mGpsInfo.append("*************\n");
+					mGpsInfo.append(String
+							.format("total satellites(%d),time to cost to get location(%d)",
+									mLocationManager.getGpsStatus(null)
+											.getMaxSatellites(),
+									mLocationManager.getGpsStatus(null)
+											.getTimeToFirstFix()));
+
+					Location curLocation = mLocationManager
+							.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					if (curLocation != null) {
+						mPosLatView.setText(String.format("%f",
+								curLocation.getLatitude()));
+					}
+				}
+			}
+		}
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		mPosLatView = (TextView) findViewById(R.id.curPosLat);
-		mPosLonView = (TextView) findViewById(R.id.curPosLon);
-		try{
-		mLocationManager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
-		mLocationManager.addGpsStatusListener(this);
-		mLocationProvider = mLocationManager.getProvider(LocationManager.GPS_PROVIDER);
-		Location curLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		mPosLatView.setText(String.format("%3.5f", curLocation.getLatitude()));
-		mPosLonView.setText(String.format("%3.5f", curLocation.getLongitude()));
-		} catch (SecurityException e){
-			Toast.makeText(this, "access not right", Toast.LENGTH_LONG).show();
+		try {
+			mPosLatView = (TextView) findViewById(R.id.curPosLat);
+			mPosLonView = (TextView) findViewById(R.id.curPosLon);
+			mBtnGetGpsInfo = (Button) findViewById(R.id.btnGetGpsInfo);
+			mGpsInfo = (TextView) findViewById(R.id.GpsInfo);
+			mBtnGetGpsInfo.setOnClickListener(mBtnHandler);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	
+
+		try {
+			mLocationManager = (LocationManager) this
+					.getSystemService(LOCATION_SERVICE);
+			Assert.assertEquals(true, mLocationManager != null);
+			mLocationManager.addGpsStatusListener(this);
+			mLocationProvider = mLocationManager
+					.getProvider(LocationManager.GPS_PROVIDER);
+			Assert.assertEquals(true, mLocationProvider != null);
+
+		} catch (SecurityException e) {
+			Toast.makeText(this, "access not right: " + e.getMessage(),
+					Toast.LENGTH_LONG).show();
+		} catch (NullPointerException e) {
+			Toast.makeText(this,
+					"unknow execption" + e.getMessage() + e.toString(),
+					Toast.LENGTH_LONG).show();
+		}
 
 		if (!mBkgdService) {
 			Log.d("MainActivity", "onCreate");
@@ -97,15 +165,16 @@ public class MainActivity extends Activity
 			break;
 		case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
 			GpsStatus gps = mLocationManager.getGpsStatus(null);
-			if(gps != null ){
-				promtStr = String.format("Gps Status: MaxSatellites=%d", gps.getMaxSatellites());
+			if (gps != null) {
+				promtStr = String.format("Gps Status: MaxSatellites=%d",
+						gps.getMaxSatellites());
 			}
 			break;
 		case GpsStatus.GPS_EVENT_STOPPED:
 			promtStr = new String("GPS GPS_EVENT_STOPPED");
 			break;
 		case GpsStatus.GPS_EVENT_FIRST_FIX:
-			promtStr = new String("GPS GPS_EVENT_FIRST_FIX");			
+			promtStr = new String("GPS GPS_EVENT_FIRST_FIX");
 			break;
 		default:
 			promtStr = new String("Nothing happen");
