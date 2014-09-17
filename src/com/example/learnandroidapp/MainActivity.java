@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.location.GpsStatus;
+import android.media.AudioManager;
 
 /*
  import android.view.Menu;
@@ -35,11 +36,14 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 	private TextView mPosLonView = null;
 	private Button mBtnGetGpsInfo = null;
 	private TextView mGpsInfo = null;
+	private Button mBtnGetCurMode = null;
+	private Button mBtnSwithNextMode = null;
 	private LocationManager mLocationManager = null;
 	private LocationProvider mLocationProvider = null;
 
 	private OnClickListener mBtnHandler = new OnClickListener() {
 		int counter = 0;
+
 		@Override
 		public void onClick(View v) {
 			if (v == mBtnGetGpsInfo && mGpsInfo != null) {
@@ -81,6 +85,36 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 					}
 				}
 			}
+
+			if (v == mBtnGetCurMode) {
+				AudioManager am = (AudioManager) MainActivity.this
+						.getSystemService(AUDIO_SERVICE);
+				String msg = new String();
+				
+				try {
+					switch (am.getRingerMode()) {
+					case AudioManager.RINGER_MODE_NORMAL:
+						msg = new String("normal mode");
+						break;
+					case AudioManager.RINGER_MODE_SILENT:
+						msg = new String("Slient");
+						break;
+					case AudioManager.RINGER_MODE_VIBRATE:
+						msg = new String("Vibrate");
+					default:
+						msg = new String("Error");
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG)
+						.show();
+			}
+
+			if (v == mBtnSwithNextMode) {
+
+			}
 		}
 	};
 
@@ -94,7 +128,12 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 			mPosLonView = (TextView) findViewById(R.id.curPosLon);
 			mBtnGetGpsInfo = (Button) findViewById(R.id.btnGetGpsInfo);
 			mGpsInfo = (TextView) findViewById(R.id.GpsInfo);
+
+			mBtnGetCurMode = (Button) findViewById(R.id.BtnCurMode);
+			mBtnSwithNextMode = (Button) findViewById(R.id.BtnSwitchToNextMode);
 			mBtnGetGpsInfo.setOnClickListener(mBtnHandler);
+			mBtnGetCurMode.setOnClickListener(mBtnHandler);
+			mBtnSwithNextMode.setOnClickListener(mBtnHandler);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
