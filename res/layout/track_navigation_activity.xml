@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="24" >
+
+        <com.example.learnandroidapp.TrackLineView
+            android:id="@+id/TrackLineView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </com.example.learnandroidapp.TrackLineView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/Back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Back" >
+        </Button>
+
+        <Button
+            android:id="@+id/ZoomIn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ZoomIn" >
+        </Button>
+
+        <Button
+            android:id="@+id/ZoomOut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ZoomOut" >
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>

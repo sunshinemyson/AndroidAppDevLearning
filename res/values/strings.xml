@@ -7,5 +7,9 @@
     <string name="txtCurPosLat">00.00000</string>
     <string name="txtCurPosLon">000.00000</string>
     <string name="btnTxtGetGpsInfo">GetGpsStatus</string>
+    <string name="Back">Back</string>
+    <string name="ZoomIn">ZoomIn</string>
+    <string name="ZoomOut">ZoomOut</string>
+    <string name="TrackMovement">TrackMovement</string>
 
 </resources>

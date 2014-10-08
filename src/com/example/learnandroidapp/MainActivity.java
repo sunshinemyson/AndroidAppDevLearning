@@ -38,6 +38,7 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 	private TextView mGpsInfo = null;
 	private Button mBtnGetCurMode = null;
 	private Button mBtnSwithNextMode = null;
+	private Button mBtnTrackMovement = null;
 	private LocationManager mLocationManager = null;
 	private LocationProvider mLocationProvider = null;
 
@@ -90,7 +91,7 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 				AudioManager am = (AudioManager) MainActivity.this
 						.getSystemService(AUDIO_SERVICE);
 				String msg = new String();
-				
+
 				try {
 					switch (am.getRingerMode()) {
 					case AudioManager.RINGER_MODE_NORMAL:
@@ -115,6 +116,14 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 			if (v == mBtnSwithNextMode) {
 
 			}
+
+			if (v == mBtnTrackMovement) {
+				Intent intent = new Intent(
+						MainActivity.this,
+						com.example.learnandroidapp.TrackNavigationActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				MainActivity.this.startActivity(intent);
+			}
 		}
 	};
 
@@ -131,9 +140,11 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 
 			mBtnGetCurMode = (Button) findViewById(R.id.BtnCurMode);
 			mBtnSwithNextMode = (Button) findViewById(R.id.BtnSwitchToNextMode);
+			mBtnTrackMovement = (Button) findViewById(R.id.btnTrackMovement);
 			mBtnGetGpsInfo.setOnClickListener(mBtnHandler);
 			mBtnGetCurMode.setOnClickListener(mBtnHandler);
 			mBtnSwithNextMode.setOnClickListener(mBtnHandler);
+			mBtnTrackMovement.setOnClickListener(mBtnHandler);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
