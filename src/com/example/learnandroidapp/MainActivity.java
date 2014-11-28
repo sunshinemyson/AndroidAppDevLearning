@@ -3,6 +3,10 @@ package com.example.learnandroidapp;
 import java.util.List;
 
 import junit.framework.Assert;
+import GestureDetectiveSystem.GenericTwoFingerInfoData;
+import GestureDetectiveSystem.GestureDetectiveSystem;
+import GestureDetectiveSystem.IGestureHandler;
+import GestureDetectiveSystem.Detectors.GestureCategory;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +16,9 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -102,8 +108,7 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 						break;
 					case AudioManager.RINGER_MODE_VIBRATE:
 						msg = new String("Vibrate");
-					default:
-						msg = new String("Error");
+						defaMainActiviyult: msg = new String("Error");
 						break;
 					}
 				} catch (Exception e) {
@@ -174,6 +179,15 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 
 			mBkgdService = true;
 		}
+
+		// Gesture support
+		Log.d("MainActiviy", "Gesture Detective System");
+		mGDS = new GestureDetectiveSystem();
+		mGesHandler = new GestureHandler();
+		if (null != mGDS) {
+			mGDS.registGestureHandler(GestureCategory.two_finger_generic,
+					mGesHandler);
+		}
 	}
 
 	@Override
@@ -231,5 +245,41 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 			break;
 		}
 		Toast.makeText(this, promtStr, Toast.LENGTH_LONG).show();
+	}
+
+	// Gesture Support
+	private GestureDetectiveSystem mGDS = null;
+	private GestureHandler mGesHandler = null;
+
+	private class GestureHandler implements IGestureHandler {
+		@Override
+		public void onGestureStarted(Parcelable gestureInfo) {
+			Log.v(TAG, "gesture started on callback");
+			GenericTwoFingerInfoData gInfo = (GenericTwoFingerInfoData) gestureInfo;
+
+			Log.v(TAG, gInfo.message);
+		}
+
+		@Override
+		public void onGestureMoving(Parcelable gestureInfo) {
+			Log.v(TAG, "gesture moving on callback");
+			GenericTwoFingerInfoData gInfo = (GenericTwoFingerInfoData) gestureInfo;
+
+			Log.v(TAG, gInfo.message);
+		}
+
+		@Override
+		public void onGestureEnd(Parcelable gestureInfo) {
+			Log.v(TAG, "gesture ended on callback");
+			GenericTwoFingerInfoData gInfo = (GenericTwoFingerInfoData) gestureInfo;
+
+			Log.v(TAG, gInfo.message);
+		}
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent e) {
+		mGDS.receieveMotionEvent(e);
+		return super.onTouchEvent(e);
 	}
 }

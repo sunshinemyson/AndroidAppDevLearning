@@ -1,0 +1,3 @@
+[submodule "src/GestureDetectiveSystem"]
+	path = src/GestureDetectiveSystem
+	url = git@github.com:sunshinemyson/GestureDetectiveSystem.git
