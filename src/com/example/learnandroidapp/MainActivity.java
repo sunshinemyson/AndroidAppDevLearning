@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import GestureDetectiveSystem.GenericTwoFingerInfoData;
 import GestureDetectiveSystem.GestureDetectiveSystem;
 import GestureDetectiveSystem.IGestureHandler;
+import GestureDetectiveSystem.ThreeFingerSwipeLeftData;
 import GestureDetectiveSystem.Detectors.GestureCategory;
 import android.app.Activity;
 import android.content.Context;
@@ -182,10 +183,19 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 
 		// Gesture support
 		Log.d("MainActiviy", "Gesture Detective System");
-		mGDS = new GestureDetectiveSystem();
+		mGDS = new GestureDetectiveSystem(false);
+		/*
+		 * // Customized system example: // GestureDetectiveSystem
+		 * mCustomizedGDS = new GestureDetectiveSystem(true); //
+		 * mCustomizedGDS.customize
+		 * (GestureCategory.three_finger_swipe_left).customize
+		 * (GestureCategory.three_finger_swipe_down);
+		 */
 		mGesHandler = new GestureHandler();
 		if (null != mGDS) {
-			mGDS.registGestureHandler(GestureCategory.two_finger_generic,
+			// mGDS.registGestureHandler(GestureCategory.two_finger_generic,
+			// mGesHandler);
+			mGDS.registGestureHandler(GestureCategory.three_finger_swipe_left,
 					mGesHandler);
 		}
 	}
@@ -255,25 +265,25 @@ public class MainActivity extends Activity implements GpsStatus.Listener {
 		@Override
 		public void onGestureStarted(Parcelable gestureInfo) {
 			Log.v(TAG, "gesture started on callback");
-			GenericTwoFingerInfoData gInfo = (GenericTwoFingerInfoData) gestureInfo;
+			ThreeFingerSwipeLeftData gInfo = (ThreeFingerSwipeLeftData) gestureInfo;
 
-			Log.v(TAG, gInfo.message);
+			// Log.v(TAG, gInfo.message);
 		}
 
 		@Override
 		public void onGestureMoving(Parcelable gestureInfo) {
 			Log.v(TAG, "gesture moving on callback");
-			GenericTwoFingerInfoData gInfo = (GenericTwoFingerInfoData) gestureInfo;
+			ThreeFingerSwipeLeftData gInfo = (ThreeFingerSwipeLeftData) gestureInfo;
 
-			Log.v(TAG, gInfo.message);
+			// Log.v(TAG, gInfo.message);
 		}
 
 		@Override
 		public void onGestureEnd(Parcelable gestureInfo) {
 			Log.v(TAG, "gesture ended on callback");
-			GenericTwoFingerInfoData gInfo = (GenericTwoFingerInfoData) gestureInfo;
+			ThreeFingerSwipeLeftData gInfo = (ThreeFingerSwipeLeftData) gestureInfo;
 
-			Log.v(TAG, gInfo.message);
+			// Log.v(TAG, gInfo.message);
 		}
 	}
 
