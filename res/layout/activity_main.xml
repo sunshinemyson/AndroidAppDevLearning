@@ -5,96 +5,11 @@
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/GestureInfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.20"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp" >
-
-        <TextView
-            android:id="@+id/titlePosistion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="@string/txtTitlePosition" >
-        </TextView>
-
-        <TextView
-            android:id="@+id/curPosLat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/txtCurPosLat" >
-
-            <requestFocus />
-        </TextView>
-
-        <TextView
-            android:id="@+id/curPosLon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/txtCurPosLon" >
-
-            <requestFocus />
-        </TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.8"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/GpsInfo"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.7"
-                android:text="GpsInfo:" >
-            </TextView>
-
-            <Button
-                android:id="@+id/btnTrackMovement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/TrackMovement" />
-
-            <Button
-                android:id="@+id/btnGetGpsInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/btnTxtGetGpsInfo" >
-            </Button>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/SystemAudioMode"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <Button
-                android:id="@+id/BtnCurMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="GetCurrent Mode" >
-            </Button>
-
-            <Button
-                android:id="@+id/BtnSwitchToNextMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="BtnSwitchToNextMode : ---" >
-            </Button>
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:text="GestureStatus:" >
+    </TextView>
 
 </LinearLayout>
